@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haesol.srmbackend.popup.service.PopupMapper">
+    <select id="getMenuListPopup" resultType="com.haesol.srmbackend.menu.service.MenuDTO">
+        SELECT DISTINCT * FROM CM_MENULIST WITH(NOLOCK )
+        <if test="type == 'module'">
+            WHERE C_MENU_TYPE != 'P'
+        </if>
+        <if test="type == 'program'">
+            WHERE C_MENU_TYPE = 'P'
+        </if>
+        AND (C_MENU_ID LIKE '%' + #{menuId} + '%' OR C_MENU_NM LIKE '%' + #{menuId} + '%')
+        ORDER BY C_MENU_ID
+    </select>
+</mapper>

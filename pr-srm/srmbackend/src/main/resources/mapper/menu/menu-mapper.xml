@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haesol.srmbackend.menu.service.MenuMapper">
+    <select id="getMenuList" resultType="com.haesol.srmbackend.menu.service.MenuDTO">
+        SELECT * FROM CM_MENULIST A WITH(NOLOCK )
+                          INNER JOIN CM_MENULIST_USER B WITH(NOLOCK )
+                                     ON A.DIV_CD = B.DIV_CD
+                                         AND A.C_MENU_ID = B.C_MENU_ID
+                                         AND A.C_MENU_TYPE = B.C_MENU_TYPE
+                                         AND B.USER_ID = #{id}
+                                         AND B.USE_YN = 'Y'
+    </select>
+
+    <select id="getMenuListPopup" resultType="com.haesol.srmbackend.menu.service.MenuDTO">
+        SELECT DISTINCT * FROM CM_MENULIST WITH(NOLOCK ) WHERE C_MENU_TYPE != 'P'
+        AND (C_MENU_ID LIKE '%' + #{type} + '%' OR C_MENU_NM LIKE '%' + #{type} + '%')
+        ORDER BY C_MENU_ID
+    </select>
+
+    <select id="getMenuColumns" resultType="com.haesol.srmbackend.menu.service.MenuColumnDTO">
+        SELECT '' AS GU, * FROM CM_MENUCOLUMN WITH (NOLOCK) WHERE DIV_CD = #{DIV_CD} AND MENU_ID = #{MENU_ID} AND MENU_TAB_NO = #{MENU_TAB_NO}
+        ORDER BY COL_NO
+    </select>
+
+    <select id="getDropValues" resultType="map">
+        {call SP_XM_ComboList(
+              #{DIV_CD, mode=IN, jdbcType=NVARCHAR}
+            , #{MAIN_CD, mode=IN, jdbcType=NVARCHAR}
+            )}
+    </select>
+</mapper>

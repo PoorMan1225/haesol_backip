@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.14'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.haesol'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '11'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // 스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // json web token
+    implementation group:'io.jsonwebtoken', name:'jjwt', version:'0.9.1'
+    implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
+    implementation 'com.sun.xml.bind:jaxb-core:4.0.1'
+    // javax.xml.bind
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 유효성 검사
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version:'2.9.2'
+
+    // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
+    // myBatis starter 로 종속성을 추가하면 추가적인 설정이 필요없고 내부 설정으로 해준다.
+    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.2.2'
+
+    implementation group: 'org.bgee.log4jdbc-log4j2', name:'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    // mssql jdbc setting
+    runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

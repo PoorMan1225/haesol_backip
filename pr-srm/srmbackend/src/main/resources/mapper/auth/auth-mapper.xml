@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haesol.srmbackend.auth.service.UserMapper">
+    <select id="getByUserId" resultType="com.haesol.srmbackend.auth.service.UserDTO">
+        SELECT * FROM SR_MES_USER_MAST WITH(NOLOCK ) WHERE USER_ID = #{USER_ID}
+    </select>
+
+    <insert id="insertUser">
+        INSERT INTO SR_MES_USER_MAST
+        ( DIV_CD, USER_ID, USER_PWD
+        , USER_NM, USER_PHONE, LOGIN_CNT
+        , USER_GRP, DEPT_CD, USE_YN, VALID_FR_DT
+        , VALID_TO_DT, LOCK_FLAG, CUST_CD
+        , INSERT_ID, INSERT_DT, UPDATE_ID, UPDATE_DT)
+        VALUES ( #{DIV_CD}, #{USER_ID}, #{USER_PWD}
+               , #{USER_NM}, #{USER_PHONE}, #{LOGIN_CNT}
+               , #{USER_GRP}, #{DEPT_CD}, #{USE_YN}, GETDATE()
+               , GETDATE(), #{LOCK_FLAG}, #{CUST_CD}
+               , #{USER_ID}, GETDATE(), #{USER_ID}, GETDATE())
+    </insert>
+</mapper>
